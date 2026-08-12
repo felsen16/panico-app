@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pánico</title>
+</head>
+<body style="text-align:center; font-family:sans-serif;">
 
+<h1>🚨 PÁNICO</h1>
+
+<button onclick="sendPanico()" style="font-size:30px; padding:20px; background:red; color:white;">
+  ACTIVAR
+</button>
+
+<script>
+async function sendPanico() {
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    await fetch("https://n8n.securitysac.com/webhook/panico", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        tipo: "PANICO",
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude,
+        accuracy: pos.coords.accuracy,
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    alert("🚨 Enviado");
+  });
+}
+</script>
+
+</body>
+</html>
