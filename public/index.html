@@ -14,20 +14,39 @@
 
 <script>
 async function sendPanico() {
-navigator.geolocation.getCurrentPosition(async (pos) => {
-  await fetch("https://n8n.securitysac.com/webhook/panico", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      lat: pos.coords.latitude,
-      lng: pos.coords.longitude,
-      timestamp: new Date().toISOString()
-    })
-  });
-});
+  if (!navigator.geolocation) {
+    alert("Geolocalización no soportada");
+    return;
+  }
 
-    alert("🚨 Enviado");
-  });
+  navigator.geolocation.getCurrentPosition(
+    async (pos) => {
+      try {
+        const response = await fetch("https://n8n.securitysac.com/webhook/panico", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            timestamp: new Date().toISOString()
+          })
+        });
+
+        if (response.ok) {
+          alert("🚨 Enviado con éxito");
+        } else {
+          alert("Error al enviar: " + response.statusText);
+        }
+      } catch (error) {
+        console.error("Error en Fetch:", error);
+        alert("Error de red/CORS");
+      }
+    },
+    (err) => {
+      alert("Error al obtener ubicación: " + err.message);
+    },
+    { enableHighAccuracy: true }
+  );
 }
 </script>
 
