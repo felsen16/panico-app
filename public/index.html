@@ -14,20 +14,17 @@
 
 <script>
 async function sendPanico() {
-  navigator.geolocation.getCurrentPosition(async (pos) => {
-    await fetch("https://n8n.securitysac.com/webhook/panico", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        tipo: "PANICO",
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-        accuracy: pos.coords.accuracy,
-        timestamp: new Date().toISOString()
-      })
-    });
+navigator.geolocation.getCurrentPosition(async (pos) => {
+  await fetch("https://n8n.securitysac.com/webhook/panico", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      lat: pos.coords.latitude,
+      lng: pos.coords.longitude,
+      timestamp: new Date().toISOString()
+    })
+  });
+});
 
     alert("🚨 Enviado");
   });
