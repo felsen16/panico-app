@@ -8,7 +8,7 @@
 
 <h1>🚨 PÁNICO</h1>
 
-<button onclick="sendPanico()" style="font-size:30px; padding:20px; background:red; color:white;">
+<button onclick="sendPanico()" style="font-size:30px; padding:20px; background:red; color:white; border:none; border-radius:10px; cursor:pointer;">
   ACTIVAR
 </button>
 
@@ -33,17 +33,17 @@ async function sendPanico() {
         });
 
         if (response.ok) {
-          alert("🚨 Enviado con éxito");
+          alert("🚨 Pánico enviado con éxito");
         } else {
-          alert("Error al enviar: " + response.statusText);
+          alert("Error de servidor n8n: " + response.statusText);
         }
       } catch (error) {
-        console.error("Error en Fetch:", error);
-        alert("Error de red/CORS");
+        console.error("Error Fetch/CORS:", error);
+        alert("Error de red o bloqueo CORS al conectar con n8n");
       }
     },
     (err) => {
-      alert("Error al obtener ubicación: " + err.message);
+      alert("Error al obtener GPS: " + err.message);
     },
     { enableHighAccuracy: true }
   );
